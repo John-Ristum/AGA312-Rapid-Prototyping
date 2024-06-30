@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class SpawnManager : MonoBehaviour
+public class SpawnManagerPT1 : MonoBehaviour
 {
     public GameObject enemyPrefab;
     public GameObject powerupPrefab;
@@ -19,7 +19,7 @@ public class SpawnManager : MonoBehaviour
 
     void Update()
     {
-        enemyCount = FindObjectsOfType<Enemy>().Length;
+        enemyCount = FindObjectsOfType<EnemyPT1>().Length;
         if (enemyCount == 0)
         {
             waveNumber++;

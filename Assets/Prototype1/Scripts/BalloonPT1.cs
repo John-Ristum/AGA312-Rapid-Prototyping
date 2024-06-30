@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Balloon : MonoBehaviour
+public class BalloonPT1 : MonoBehaviour
 {
     public float respawnTime = 5;
     MeshRenderer mesh;
@@ -47,11 +47,11 @@ public class Balloon : MonoBehaviour
 
     private void OnEnable()
     {
-        DeathZone.PlayerDead += ResetBalloon;
+        DeathZonePT1.PlayerDead += ResetBalloon;
     }
 
     private void OnDisable()
     {
-        DeathZone.PlayerDead -= ResetBalloon;
+        DeathZonePT1.PlayerDead -= ResetBalloon;
     }
 }

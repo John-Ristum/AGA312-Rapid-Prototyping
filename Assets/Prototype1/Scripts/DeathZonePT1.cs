@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeathZone : GameBehaviour
+public class DeathZonePT1 : GameBehaviour
 {
     public static event Action PlayerDead = null;
 

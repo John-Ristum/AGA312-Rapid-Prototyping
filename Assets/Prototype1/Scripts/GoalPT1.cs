@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Goal : GameBehaviour
+public class GoalPT1 : GameBehaviour
 {
     AudioSource audioSource;
     public AudioClip goalSound;

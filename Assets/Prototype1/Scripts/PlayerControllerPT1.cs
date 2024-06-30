@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using DG.Tweening;
 
-public class PlayerController : GameBehaviour
+public class PlayerControllerPT1 : GameBehaviour
 {
     AudioSource audioSource;
     public AudioClip boostChargeSound;
@@ -14,7 +14,7 @@ public class PlayerController : GameBehaviour
     private Rigidbody playerRb;
     private TrailRenderer boostTrail;
     public GameObject boostBar;
-    BoostBar boostBarScript;
+    BoostBarPT1 boostBarScript;
     private Color transparent;
     public Material defaultMaterial;
     public Material balloonMaterial;
@@ -57,7 +57,7 @@ public class PlayerController : GameBehaviour
         playerRb.maxAngularVelocity = float.PositiveInfinity;
         boostTrail = GetComponent<TrailRenderer>();
         boostTrail.time = 0;
-        boostBarScript = boostBar.GetComponent<BoostBar>();
+        boostBarScript = boostBar.GetComponent<BoostBarPT1>();
         boostBar.SetActive(false);
 
         audioSource = GetComponent<AudioSource>();
@@ -238,11 +238,11 @@ public class PlayerController : GameBehaviour
 
     private void OnEnable()
     {
-        DeathZone.PlayerDead += ResetPlayer;
+        DeathZonePT1.PlayerDead += ResetPlayer;
     }
 
     private void OnDisable()
     {
-        DeathZone.PlayerDead -= ResetPlayer;
+        DeathZonePT1.PlayerDead -= ResetPlayer;
     }
 }

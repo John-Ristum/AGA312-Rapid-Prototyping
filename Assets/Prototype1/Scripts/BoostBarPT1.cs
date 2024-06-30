@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BoostBar : GameBehaviour
+public class BoostBarPT1 : GameBehaviour
 {
     public Image healthFill;
 

@@ -13614,7 +13614,7 @@ PrefabInstance:
     - target: {fileID: 1217529276473997898, guid: 42c01c114c9a67f4bae6732544275dc1,
         type: 3}
       propertyPath: nextLevel
-      value: Level 2
+      value: Level2PT1
       objectReference: {fileID: 0}
     - target: {fileID: 4151419890113149062, guid: 42c01c114c9a67f4bae6732544275dc1,
         type: 3}
@@ -21515,6 +21515,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SceneController
+      objectReference: {fileID: 0}
+    - target: {fileID: 2342408477443551106, guid: 9740ae1d96f1f184b99d75af8109d3be,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2626916171934085642, guid: 9740ae1d96f1f184b99d75af8109d3be,
         type: 3}

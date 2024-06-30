@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class BounceBlock : GameBehaviour
+public class BounceBlockPT1 : GameBehaviour
 {
     Vector3 originalScale;
     Vector3 scaleTo;
