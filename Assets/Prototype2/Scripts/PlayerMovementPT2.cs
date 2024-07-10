@@ -1,14 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovementPT2 : Singleton<PlayerMovementPT2>
 {
+    public static event Action PlayerDead = null;
+
+    public enum PlayerState { Walking, Climbing}
+    public PlayerState state;
+
     public CharacterController controller;
     public float speed = 10f;
     public float gravity = -9.81f;
     public float jumpHeight = 3f;
-    public float health = 100;
+    public Transform startPoint;
 
     public Transform groundCheck;
     public float groundDistance = 0.4f;
@@ -17,8 +23,16 @@ public class PlayerMovementPT2 : Singleton<PlayerMovementPT2>
     private Vector3 velocity;
     private bool isGrounded;
 
+    private GameObject tree;
+    private bool nearTree;
+
+    public bool canShoot = false;
+
     [HideInInspector]
     public bool isFacingRight = true;  // For determining which way the player is currently facing.
+
+    float x;
+    float y;
 
     //AudioSource audioSource;
     //public float stepRate = 0.5f;
@@ -26,23 +40,40 @@ public class PlayerMovementPT2 : Singleton<PlayerMovementPT2>
 
     private void Start()
     {
-        //audioSource = GetComponent<AudioSource>();
+        state = PlayerState.Walking;
     }
 
-    void Update()
+    private void Update()
+    {
+        //Get the input from the player
+        x = Input.GetAxis("Horizontal");
+        y = Input.GetAxis("Vertical");
+    }
+
+    void FixedUpdate()
     {
         //Checks if we are touching the ground
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        if (isGrounded && velocity.y < 0)
-            velocity.y = -2f;
+        //Gravity Stuff
+        if (state == PlayerState.Walking)
+        {
+            if (isGrounded && velocity.y < 0)
+                velocity.y = -2f;
 
-        //Get the input from the player
-        float x = Input.GetAxis("Horizontal");
+            velocity.y += gravity * Time.deltaTime;
+            controller.Move(velocity * Time.deltaTime);
+        }
 
         //Move the player
         Vector3 move = transform.right * x;
-        controller.Move(move * speed * Time.deltaTime);
+        if (state == PlayerState.Walking)
+            controller.Move(move * speed * Time.deltaTime);
+
+        //Climbing
+        Vector3 climb = transform.up * y;
+        if (state == PlayerState.Climbing)
+            controller.Move(climb * speed * Time.deltaTime);
 
         // If the input is moving the player right and the player is facing left...
         if (move.x > 0 && !isFacingRight)
@@ -58,30 +89,76 @@ public class PlayerMovementPT2 : Singleton<PlayerMovementPT2>
         }
 
         //Does the jump stuff
-        if (Input.GetButtonDown("Jump") && isGrounded)
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        if (Input.GetButtonDown("Jump"))
+        {
+            if(isGrounded)
+                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
 
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+            if(state == PlayerState.Climbing)
+            {
+                state = PlayerState.Walking;
+                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            }
+        }
 
-        //Footstep Audio Stuff
-        //stepCooldown -= Time.deltaTime;
-        //if(stepCooldown < 0 && isGrounded && (move.x != 0 || move.z != 0))
-        //{
-        //    stepCooldown = stepRate;
-        //    _AM.PlaySound(_AM.GetFootstepSound(), audioSource);
-        //}
 
+        if (state == PlayerState.Walking && nearTree && Input.GetKeyDown(KeyCode.W))
+        {
+            state = PlayerState.Climbing;
+            transform.position = new Vector3(tree.transform.position.x, transform.position.y, transform.position.z);
+        }
+
+        OneWayPlatform();
+
+        //if (Input.GetKeyDown(KeyCode.R))
+        //    canShoot = true;
     }
 
-    public void Hit(int damage)
+    void ResetPlayer()
     {
-        health -= damage;
-        print("Player health: " + health);
-        if (health <= 0)
+        transform.position = startPoint.transform.position;
+        canShoot = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Climbable"))
         {
-            //_GM.gameState = GameState.GameOver;
-            //_AM.PlaySound(_AM.GetEnemyDieSound(), audioSource);
+            tree = other.gameObject;
+            nearTree = true;
+        }
+
+        if (other.CompareTag("EnemyProjectile"))
+        {
+            Destroy(other.gameObject);
+            ResetPlayer();
+            //PlayerDead();
+            Debug.Log("ded");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Climbable"))
+        {
+            tree = null;
+            nearTree = false;
+            state = PlayerState.Walking;
+        }
+    }
+
+    void OneWayPlatform()
+    {
+        //Create the ray
+        Ray ray = new Ray(transform.position, transform.up * -1);
+        //Create a refererance to hold the info on what we hit
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 1f)) //Mathf.Infinity makes ray go forever
+        {
+            if (hit.collider.gameObject.CompareTag("OneWayPlat"))
+                //Debug.Log("hit");
+                hit.collider.isTrigger = false;
         }
     }
 

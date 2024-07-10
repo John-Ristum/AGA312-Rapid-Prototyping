@@ -7,6 +7,10 @@ TagManager:
   - Powerup
   - Enemy
   - DeathZone
+  - Climbable
+  - OneWayPlat
+  - PlayerProjectile
+  - EnemyProjectile
   layers:
   - Default
   - TransparentFX
@@ -14,7 +18,7 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
+  - PlayerProjectile
   - 
   - 
   - 

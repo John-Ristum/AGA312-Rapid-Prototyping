@@ -9,6 +9,7 @@ public class FiringPointPT2 : MonoBehaviour
     public Rigidbody projectileRB;
     public float projectileSpeedH = 1000;    //The speed that our ptojectile fires at
     public float projectileSpeedV = 1000;    //The speed that our ptojectile fires at
+    
 
     //[Header("Trajectory Line")]
     //public LineRenderer lineRenderer;
@@ -32,7 +33,7 @@ public class FiringPointPT2 : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetButtonDown("Fire1"))
+        if(Input.GetButtonDown("Fire1") && player.canShoot)
             FireRigidbody();
 
         //DrawProjection();
@@ -52,6 +53,8 @@ public class FiringPointPT2 : MonoBehaviour
         projectileInstance = Instantiate(projectilePrefab, transform.position, transform.rotation);
         //Get the rigidbody component of the projectile and add force to "fire" it
         projectileInstance.GetComponent<Rigidbody>().AddForce((transform.right * direction) * projectileSpeedH + transform.up * projectileSpeedV);
+
+        player.canShoot = false;
     }
 
     //void DrawProjection()
