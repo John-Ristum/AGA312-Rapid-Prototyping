@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class PlayerMovementPT2 : Singleton<PlayerMovementPT2>
 {
-    public static event Action PlayerDead = null;
-
     public enum PlayerState { Walking, Climbing}
     public PlayerState state;
 

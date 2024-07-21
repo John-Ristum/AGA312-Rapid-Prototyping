@@ -11,6 +11,7 @@ TagManager:
   - OneWayPlat
   - PlayerProjectile
   - EnemyProjectile
+  - Wall
   layers:
   - Default
   - TransparentFX

@@ -4,6 +4,7 @@ public class PauseController : MonoBehaviour
 {
     public GameObject pausePanel;
     private bool paused;
+    public bool gameEnded;
 
     void Start()
     {
@@ -20,6 +21,9 @@ public class PauseController : MonoBehaviour
 
     public void Pause()
     {
+        if (gameEnded)
+            return;
+
         paused = !paused;
         pausePanel.SetActive(paused);
         Time.timeScale = paused ? 0 : 1;
