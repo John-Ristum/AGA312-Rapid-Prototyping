@@ -8,6 +8,7 @@ public class EnemyPT3 : MonoBehaviour
     public enum EnemyState { Patrol, Stunned}
     public EnemyState state;
     public PlayerMovementPT3 player;
+    public GameManagerPT3 gameManager;
 
     Rigidbody rb;
     NavMeshAgent agent;
@@ -32,18 +33,33 @@ public class EnemyPT3 : MonoBehaviour
     public float projectileSpeed = 1000;    //The speed that our ptojectile fires at
     public Transform firingPoint;
 
+    [Header("Ghost")]
+    public bool isGhost;
+    public Material defaultMaterial;
+    public Material ghostMaterial;
+    Renderer meshRenderer;
+    Collider meshCollider;
+
+    bool gameStarted;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         movedOnZ = Random.Range(0, 2);
-        //Debug.Log(movedOnZ);
+        meshRenderer = GetComponent<Renderer>();
+        meshCollider = GetComponent<Collider>();
+
+        gameStarted = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!gameStarted)
+            return;
+
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundLayer);
 
         if (!isGrounded)
@@ -109,23 +125,63 @@ public class EnemyPT3 : MonoBehaviour
 
     }
 
+    public void SetGhost()
+    {
+        isGhost = true;
+        meshRenderer.material = ghostMaterial;
+        meshCollider.isTrigger = true;
+    }
+
+    public void ResetGhost()
+    {
+        isGhost = false;
+        meshRenderer.material = defaultMaterial;
+        meshCollider.isTrigger = false;
+    }
+
+    IEnumerator SetPatrol()
+    {
+        agent.enabled = true;
+        state = EnemyState.Patrol;
+
+        if (isGhost)
+            ResetGhost();
+
+        yield return new WaitForSeconds(0.5f);
+
+        rb.isKinematic = true;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Wall"))
+        if (other.CompareTag("Wall") && !isGhost)
         {
-            agent.enabled = true;
-            state = EnemyState.Patrol;
+            StartCoroutine(SetPatrol());
         }
 
         if (other.CompareTag("DeathZone"))
         {
-            player.IncreaseScore(1);
+            gameManager.IncreaseScore(1);
 
             transform.rotation = startPoint.transform.rotation;
             transform.position = startPoint.transform.position;
 
-            agent.enabled = true;
-            state = EnemyState.Patrol;
+            StartCoroutine(SetPatrol());
         }
+    }
+
+    void GameStartedTrue()
+    {
+        gameStarted = true;
+    }
+
+    private void OnEnable()
+    {
+        GameManagerPT3.startGame += GameStartedTrue;
+    }
+
+    private void OnDisable()
+    {
+        GameManagerPT3.startGame -= GameStartedTrue;
     }
 }

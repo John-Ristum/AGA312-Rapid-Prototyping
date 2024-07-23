@@ -6,6 +6,7 @@ using UnityEngine;
 public class GameBehaviour : MonoBehaviour
 {
     protected static AudioManager _AM { get { return AudioManager.INSTANCE; } }
+    protected static SaveManager _SAVE { get { return SaveManager.INSTANCE; } }
 
     #region Coroutine Helpers
 

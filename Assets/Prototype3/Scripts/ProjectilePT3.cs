@@ -7,6 +7,8 @@ public class ProjectilePT3 : MonoBehaviour
     public enum ProjectileType { Player, Enemy }
     public ProjectileType type;
 
+    public bool isGhost;
+
     public float lifeSpan = 5;      //Seconds until projectile is destroyed
     Rigidbody rb;
 
@@ -36,8 +38,19 @@ public class ProjectilePT3 : MonoBehaviour
             if (other.CompareTag("Enemy"))
             {
                 other.gameObject.GetComponent<EnemyPT3>().Stun();
-                ApplyKnockbackEnemy(other.attachedRigidbody);
+                other.attachedRigidbody.isKinematic = false;
+
+                if (isGhost)
+                {
+                    other.gameObject.GetComponent<EnemyPT3>().SetGhost();
+                }
+
+                ApplyKnockback(other.attachedRigidbody);
             }
+
+            if (!other.CompareTag("PlayerProjectile"))
+                if (!isGhost)
+                    Destroy(this.gameObject);
         }
 
         if (type == ProjectileType.Enemy)
@@ -47,14 +60,16 @@ public class ProjectilePT3 : MonoBehaviour
 
             if (other.CompareTag("Player"))
             {
-                other.gameObject.GetComponent<PlayerMovementPT3>().KillPlayer();
+                //other.gameObject.GetComponent<PlayerMovementPT3>().KillPlayer();
+                other.gameObject.GetComponent<PlayerMovementPT3>().Stun();
+                ApplyKnockback(other.attachedRigidbody);
             }
-        }
 
-        Destroy(this.gameObject);
+            Destroy(this.gameObject);
+        }
     }
 
-    void ApplyKnockbackEnemy(Rigidbody _opposingRB)
+    void ApplyKnockback(Rigidbody _opposingRB)
     {
         //Determine direction of knockback
         Vector3 knockbackDirection = _opposingRB.transform.position - transform.position;
