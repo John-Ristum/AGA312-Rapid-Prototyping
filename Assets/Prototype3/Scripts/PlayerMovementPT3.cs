@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,7 @@ public class PlayerMovementPT3 : MonoBehaviour
     public float rotationSpeed = 40;
     public Transform startPoint;
     public GameManagerPT3 gameManager;
+    public bool useBruteForceFix;
     //public int lives = 3;
     //public int score;
 
@@ -46,6 +48,7 @@ public class PlayerMovementPT3 : MonoBehaviour
     public GameObject gameOverPanel;
     public PauseController pauseController;
 
+
     float x;
     float y;
 
@@ -74,11 +77,11 @@ public class PlayerMovementPT3 : MonoBehaviour
 
         Vector3 move = transform.right * x;
 
-        //Turn Player
-        if (x != 0)
-            Turn();
-        else if (state != PlayerState.Stunned)
-            state = PlayerState.Moving;
+        ////Turn Player
+        //if (x != 0)
+        //    Turn();
+        //else if (state != PlayerState.Stunned)
+        //    state = PlayerState.Moving;
 
 
         if (gameManager.powerUp == GameManagerPT3.PowerUpState.Rapidfire)
@@ -126,6 +129,16 @@ public class PlayerMovementPT3 : MonoBehaviour
         if (canMove && state == PlayerState.Moving)
             rb.AddForce(transform.forward * playerSpeed * Time.deltaTime, ForceMode.Force);
         //controller.Move(transform.forward * playerSpeed * Time.deltaTime);
+
+        //Turn Player
+        if (x != 0)
+            Turn();
+        else if (state != PlayerState.Stunned)
+            state = PlayerState.Moving;
+
+        if(useBruteForceFix)
+            if (state == PlayerState.Stunned && (rb.velocity.x + rb.velocity.y) <= 0 && isGrounded)
+                state = PlayerState.Moving;
     }
 
     void Player1Inputs()
@@ -228,6 +241,7 @@ public class PlayerMovementPT3 : MonoBehaviour
 
     public void KillPlayer()
     {
+        gameManager.ShakeCamera();
         gameManager.lives -= 1;
         gameManager.livesText.text = "Lives: " + gameManager.lives;
 

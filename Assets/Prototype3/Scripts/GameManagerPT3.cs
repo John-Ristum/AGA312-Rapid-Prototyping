@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,7 @@ public class GameManagerPT3 : GameBehaviour
     public GameTypeState gameType;
     public enum PowerUpState { Normal, Rapidfire, Shotgun, Ghost }
     public PowerUpState powerUp;
-    float powerUpTimer = 10f;
+    public float powerUpTimer = 10f;
     public PowerUpManagerPT3 powerUpManager;
     public int lives = 3;
     public int score;
@@ -30,6 +31,10 @@ public class GameManagerPT3 : GameBehaviour
     public GameObject inGamePanel;
     public GameObject gameOverPanel;
     public PauseController pauseController;
+
+    [Header("Camera Shake")]
+    public float moveTweenTime = 1f;
+    public float shakeStrength = 0.4f;
 
     // Start is called before the first frame update
     void Start()
@@ -124,5 +129,10 @@ public class GameManagerPT3 : GameBehaviour
         gameOverPanel.SetActive(true);
         pauseController.gameEnded = true;
         Time.timeScale = 0;
+    }
+
+    public void ShakeCamera()
+    {
+        Camera.main.DOShakePosition(moveTweenTime / 2, shakeStrength);
     }
 }

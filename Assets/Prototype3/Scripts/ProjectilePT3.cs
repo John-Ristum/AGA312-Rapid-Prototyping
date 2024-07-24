@@ -74,7 +74,7 @@ public class ProjectilePT3 : MonoBehaviour
         //Determine direction of knockback
         Vector3 knockbackDirection = _opposingRB.transform.position - transform.position;
         //Resets velocity to prevent knockback compounding
-        _opposingRB.velocity = new Vector3(0, 0, 0);
+        //_opposingRB.velocity = new Vector3(0, 0, 0);
         //Apply knockback
         _opposingRB.AddForce(rb.velocity.x * 100, 0, rb.velocity.z * 100, ForceMode.Force);
     }

@@ -12,6 +12,8 @@ public class PowerUpPT3 : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            gameManager.powerUpTimer = 10f;
+
             switch (type)
             {
                 case PowerUpType.Rapidfire:

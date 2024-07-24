@@ -66,6 +66,7 @@ public class EnemyPT3 : MonoBehaviour
         {
             rb.velocity = new Vector3(0, rb.velocity.y, 0);
             rb.useGravity = true;
+            rb.isKinematic = false;
         }
         else
             rb.useGravity = false;
@@ -75,6 +76,12 @@ public class EnemyPT3 : MonoBehaviour
 
         if (destPoint != null)
             transform.LookAt(new Vector3(destPoint.x, transform.position.y, destPoint.z));
+
+        //if (state == EnemyState.Stunned && (rb.velocity.x + rb.velocity.y) <= 0 && isGrounded)
+        //{
+        //    agent.enabled = true;
+        //    state = EnemyState.Patrol;
+        //}
     }
 
     void Patrol()
@@ -161,6 +168,7 @@ public class EnemyPT3 : MonoBehaviour
 
         if (other.CompareTag("DeathZone"))
         {
+            gameManager.ShakeCamera();
             gameManager.IncreaseScore(1);
 
             transform.rotation = startPoint.transform.rotation;
