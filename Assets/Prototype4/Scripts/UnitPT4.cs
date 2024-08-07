@@ -10,13 +10,24 @@ public class UnitPT4 : MonoBehaviour
     public PartyType party;
     public EquationType equation;
     public BattleHudPT4 HUD;
+    public Animator anim;
     public string unitName;
     public int unitLevel;
 
-    public int damage;
+    public int attackDamage;
+    public int specialDamage;
+    public bool isBlocking;
 
     public int maxHP;
     public int currentHP;
+    public string attackAnim;
+    public Transform oppStandPoint;
+
+    private void Start()
+    {
+        anim = GetComponentInChildren<Animator>();
+        anim.SetBool("Idle", true);
+    }
 
     public bool TakeDamage(int _dmg)
     {

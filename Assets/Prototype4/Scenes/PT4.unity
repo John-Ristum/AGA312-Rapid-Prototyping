@@ -268,7 +268,6 @@ GameObject:
   - component: {fileID: 48920037}
   - component: {fileID: 48920036}
   - component: {fileID: 48920038}
-  - component: {fileID: 48920039}
   m_Layer: 0
   m_Name: BattleSystem
   m_TagString: Untagged
@@ -288,6 +287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baa573dee134b3b45aad93062dfa7413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttons: {fileID: 286545943}
   playerPrefab: {fileID: 7369628559093760375, guid: b1e806d5367790947b0b301bf5e6894c,
     type: 3}
   playerPrefab2: {fileID: 7369628559093760375, guid: 95bb3f2c003de744e9a9cbb8c4054f83,
@@ -302,15 +302,18 @@ MonoBehaviour:
   playerHUD: {fileID: 86993360}
   playerHUD2: {fileID: 1189489952}
   enemyHUD: {fileID: 493701366}
-  state: 0
+  battleState: 0
   equationGenerator: {fileID: 48920038}
-  isReversed: 0
+  equationType: 0
+  equationState: 0
   num1Box: {fileID: 1068953309}
   num2Box: {fileID: 1632093796}
   num3Box: {fileID: 402633293}
+  operatorText: {fileID: 709278751}
   equationPanel: {fileID: 1547393580}
   timerBar: {fileID: 1574820220}
   equationTimer: 5
+  blockTimer: 10
 --- !u!4 &48920037
 Transform:
   m_ObjectHideFlags: 0
@@ -343,24 +346,6 @@ MonoBehaviour:
   numberTwo: 0
   correctAnswer: 0
   dummyAnswers: 
---- !u!114 &48920039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 48920035}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c46ab9bb92244e748856905cfce4b4eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  equationGenerator: {fileID: 48920038}
-  isReversed: 0
-  num1Box: {fileID: 1068953309}
-  num2Box: {fileID: 1632093796}
-  num3Box: {fileID: 402633293}
-  inputFieldReversed: {fileID: 0}
 --- !u!1 &80015565
 GameObject:
   m_ObjectHideFlags: 0
@@ -763,7 +748,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &181861656
 RectTransform:
   m_ObjectHideFlags: 0
@@ -777,11 +762,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 569269558}
-  m_Father: {fileID: 629096545}
+  m_Father: {fileID: 286545944}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -268, y: 89.999985}
+  m_AnchoredPosition: {x: 174.49997, y: 21.893158}
   m_SizeDelta: {x: 160, y: 85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &181861657
@@ -830,7 +815,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 48920036}
         m_TargetAssemblyTypeName: BattleSystemPT4, Assembly-CSharp
-        m_MethodName: OnHealButton
+        m_MethodName: OnSpecialButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1295,6 +1280,45 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 233913626}
   m_CullTransparentMesh: 1
+--- !u!1 &286545943
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 286545944}
+  m_Layer: 5
+  m_Name: Buttons
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &286545944
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286545943}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1545523345}
+  - {fileID: 181861656}
+  - {fileID: 1177027556}
+  - {fileID: 515857490}
+  m_Father: {fileID: 629096545}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -442.5, y: 68.106834}
+  m_SizeDelta: {x: 509, y: 238.46425}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &374914287
 GameObject:
   m_ObjectHideFlags: 0
@@ -1312,7 +1336,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &374914288
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1748,12 +1772,12 @@ GameObject:
   - component: {fileID: 515857492}
   - component: {fileID: 515857491}
   m_Layer: 5
-  m_Name: SwapButton
+  m_Name: HealButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &515857490
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1767,11 +1791,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1617413815}
-  m_Father: {fileID: 629096545}
+  m_Father: {fileID: 286545944}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -440.54562, y: 144.83896}
+  m_AnchoredPosition: {x: 1.9543762, y: 76.732086}
   m_SizeDelta: {x: 160, y: 85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &515857491
@@ -1820,7 +1844,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 48920036}
         m_TargetAssemblyTypeName: BattleSystemPT4, Assembly-CSharp
-        m_MethodName: OnAttackButton
+        m_MethodName: OnHealButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2249,7 +2273,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &597651499
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2586,10 +2610,7 @@ RectTransform:
   - {fileID: 1189489951}
   - {fileID: 493701363}
   - {fileID: 1223887595}
-  - {fileID: 1545523345}
-  - {fileID: 181861656}
-  - {fileID: 1177027556}
-  - {fileID: 515857490}
+  - {fileID: 286545944}
   - {fileID: 532577972}
   - {fileID: 1547393581}
   m_Father: {fileID: 197809245}
@@ -2965,79 +2986,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &829185903
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7369628559093760375, guid: b1e806d5367790947b0b301bf5e6894c,
-        type: 3}
-      propertyPath: m_Name
-      value: PlayerTutorial
-      objectReference: {fileID: 0}
-    - target: {fileID: 7369628559093760375, guid: b1e806d5367790947b0b301bf5e6894c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7880092644734238793, guid: b1e806d5367790947b0b301bf5e6894c,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -9
-      objectReference: {fileID: 0}
-    - target: {fileID: 7880092644734238793, guid: b1e806d5367790947b0b301bf5e6894c,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -4.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7880092644734238793, guid: b1e806d5367790947b0b301bf5e6894c,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 9.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 7880092644734238793, guid: b1e806d5367790947b0b301bf5e6894c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7880092644734238793, guid: b1e806d5367790947b0b301bf5e6894c,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7880092644734238793, guid: b1e806d5367790947b0b301bf5e6894c,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7880092644734238793, guid: b1e806d5367790947b0b301bf5e6894c,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7880092644734238793, guid: b1e806d5367790947b0b301bf5e6894c,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7880092644734238793, guid: b1e806d5367790947b0b301bf5e6894c,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7880092644734238793, guid: b1e806d5367790947b0b301bf5e6894c,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b1e806d5367790947b0b301bf5e6894c, type: 3}
 --- !u!1 &871563385
 GameObject:
   m_ObjectHideFlags: 0
@@ -3593,7 +3541,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1005790082
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4044,12 +3992,12 @@ GameObject:
   - component: {fileID: 1177027558}
   - component: {fileID: 1177027557}
   m_Layer: 5
-  m_Name: BlockButton
+  m_Name: GuardButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1177027556
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4063,11 +4011,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1904195125}
-  m_Father: {fileID: 629096545}
+  m_Father: {fileID: 286545944}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -617, y: 90}
+  m_AnchoredPosition: {x: -174.5, y: 21.893127}
   m_SizeDelta: {x: 160, y: 85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1177027557
@@ -4116,7 +4064,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 48920036}
         m_TargetAssemblyTypeName: BattleSystemPT4, Assembly-CSharp
-        m_MethodName: OnHealButton
+        m_MethodName: OnBlockButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4573,7 +4521,7 @@ Transform:
   m_GameObject: {fileID: 1385458952}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10, y: -4.5, z: 6}
+  m_LocalPosition: {x: 10, y: -4.5, z: 9.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4797,11 +4745,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 208289710}
-  m_Father: {fileID: 629096545}
+  m_Father: {fileID: 286545944}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -440.54562, y: -8.625294}
+  m_AnchoredPosition: {x: 1.9543762, y: -76.73212}
   m_SizeDelta: {x: 160, y: 85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1545523346
@@ -5014,7 +4962,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Swap
+  m_text: Heal
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5606,7 +5554,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Block
+  m_text: Guard
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6160,7 +6108,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 0400df0cb7fb04a4e82d5d3d556bf62b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6200,7 +6148,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.4968546, y: -7.352514, z: 9.25}
-  m_LocalScale: {x: 40, y: 5, z: 20}
+  m_LocalScale: {x: 100, y: 5, z: 20}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 893762453}
@@ -6217,6 +6165,5 @@ SceneRoots:
   - {fileID: 197809244}
   - {fileID: 2131925484}
   - {fileID: 2048706502}
-  - {fileID: 829185903}
   - {fileID: 727242724}
   - {fileID: 1385458953}

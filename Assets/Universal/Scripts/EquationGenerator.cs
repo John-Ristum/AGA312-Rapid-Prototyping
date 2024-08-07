@@ -54,7 +54,7 @@ public class EquationGenerator : MonoBehaviour
         numberOne = GetRandomNumber();
         numberTwo = GetRandomNumber();
         correctAnswer = numberOne + numberTwo;
-        //Debug.Log(numberOne + operatorSign + numberTwo + " = " + correctAnswer);
+        Debug.Log(numberOne + operatorSign + numberTwo + " = " + correctAnswer);
         GenerateDummyAnswers();
     }
 
