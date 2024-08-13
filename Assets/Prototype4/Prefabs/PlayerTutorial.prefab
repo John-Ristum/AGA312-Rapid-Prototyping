@@ -247,7 +247,7 @@ MonoBehaviour:
   specialDamage: 10
   isBlocking: 0
   maxHP: 25
-  currentHP: 20
+  currentHP: 25
   attackAnim: 
   oppStandPoint: {fileID: 7691643449410430081}
 --- !u!1 &8995103394742855143
