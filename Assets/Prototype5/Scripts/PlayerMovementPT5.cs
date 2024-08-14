@@ -26,6 +26,7 @@ public class PlayerMovementPT5 : MonoBehaviour
     float yRaw;
     Vector3 targetRotation;
     public float rotationSpeed = 5;
+    bool falling;
 
     // Start is called before the first frame update
     void Start()
@@ -47,10 +48,20 @@ public class PlayerMovementPT5 : MonoBehaviour
 
         //Gravity Stuff
         if (isGrounded && velocity.y < 0)
+        {
             velocity.y = -2f;
+            falling = false;
+        }
 
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+        if (x == 0 && y == 0 || falling)
+        {
+            velocity.y += gravity * Time.deltaTime;
+            controller.Move(velocity * Time.deltaTime);
+        }
+
+        if (velocity.y < -2.1)
+            falling = true;
+            //Debug.Log("falling");
 
         //Move the player
         Vector3 move = transform.right * x + transform.forward * y;
@@ -85,8 +96,9 @@ public class PlayerMovementPT5 : MonoBehaviour
         //Does the jump stuff
         if (Input.GetButtonDown("Jump"))
         {
-            if (isGrounded)
+            if (isGrounded || !falling)
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            falling = true;
         }
     }
 
