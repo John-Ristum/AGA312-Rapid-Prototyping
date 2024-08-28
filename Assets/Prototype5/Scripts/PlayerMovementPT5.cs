@@ -35,12 +35,15 @@ public class PlayerMovementPT5 : MonoBehaviour
     public float rotationSpeed = 5;
     bool falling;
     bool canJump;
+    bool moving;
+    Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
         state = PlayerState.Normal;
         controller = GetComponent<CharacterController>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -70,6 +73,7 @@ public class PlayerMovementPT5 : MonoBehaviour
 
         //Checks if we are touching the ground
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        anim.SetBool("Grounded", isGrounded);
 
         //Gravity Stuff
         if (isGrounded && velocity.y < 0)
@@ -117,15 +121,26 @@ public class PlayerMovementPT5 : MonoBehaviour
         {
             case PlayerState.Normal:
                 controller.Move(move.normalized * walkSpeed * Time.deltaTime);
+
+                //Move Animations
+                if (move.x + move.z != 0 && isGrounded)
+                    anim.SetBool("Walking", true);
+                else
+                    anim.SetBool("Walking", false);
                 break;
             case PlayerState.Dashing:
                 controller.Move((transform.right * x) * dashSpeed * Time.deltaTime);
                 controller.Move((transform.forward * y) * (walkSpeed * yOffset) * Time.deltaTime);
+
+                //Move Animations
+                if (move.x + move.z != 0)
+                    anim.SetBool("Walking", true);
+                else
+                    anim.SetBool("Walking", false);
                 break;
         }
-        
 
-        
+
 
         //Vector3 move = new Vector3(x, 0, y);
         //Vector3 moveRaw = new Vector3(xRaw, 0, yRaw);
@@ -170,6 +185,8 @@ public class PlayerMovementPT5 : MonoBehaviour
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             canJump = false;
+
+            anim.SetTrigger("Jump");
         }
         falling = true;
     }
