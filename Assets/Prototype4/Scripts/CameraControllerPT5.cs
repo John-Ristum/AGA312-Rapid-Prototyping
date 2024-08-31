@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraControllerPT5 : MonoBehaviour
 {
     public GameObject player;
+    public bool playerDead;
 
     Vector3 offset;
 
@@ -16,6 +17,12 @@ public class CameraControllerPT5 : MonoBehaviour
 
     void LateUpdate()
     {
-        transform.position = player.transform.position + offset;
+        if (!playerDead)
+            transform.position = player.transform.position + offset;
+    }
+
+    public void ResetCam()
+    {
+
     }
 }

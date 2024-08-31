@@ -36,11 +36,13 @@ public class PlayerMovementPT5 : MonoBehaviour
     bool falling;
     bool canJump;
     bool moving;
+    public bool canMove;
     Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
+        canMove = true;
         state = PlayerState.Normal;
         controller = GetComponent<CharacterController>();
         anim = GetComponentInChildren<Animator>();
@@ -61,8 +63,16 @@ public class PlayerMovementPT5 : MonoBehaviour
         //}
 
         //Get the input from the player
-        x = Input.GetAxisRaw("Horizontal");
-        y = Input.GetAxisRaw("Vertical");
+        if (canMove)
+        {
+            x = Input.GetAxisRaw("Horizontal");
+            y = Input.GetAxisRaw("Vertical");
+        }
+        else
+        {
+            x = 0;
+            y = 0;
+        }
         //xRaw = Input.GetAxisRaw("Horizontal");
         //yRaw = Input.GetAxisRaw("Vertical");
 
@@ -169,13 +179,16 @@ public class PlayerMovementPT5 : MonoBehaviour
         }
 
         //Does the jump stuff
-        if (Input.GetButtonDown("Jump"))
+        if (canMove)
         {
-            Jump();
-        }
-        if (Input.GetButtonUp("Jump") && velocity.y > -0.2)
-        {
-            velocity.y /= 2;
+            if (Input.GetButtonDown("Jump"))
+            {
+                Jump();
+            }
+            if (Input.GetButtonUp("Jump") && velocity.y > -0.2)
+            {
+                velocity.y /= 2;
+            }
         }
     }
 

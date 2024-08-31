@@ -1819,7 +1819,7 @@ PrefabInstance:
         type: 3}
       propertyPath: mySplashImage
       value: 
-      objectReference: {fileID: 21300000, guid: 7debaa708a7af7e4281de1d1713bef98,
+      objectReference: {fileID: 21300000, guid: fe55be1c3ebafcc47867cbdf7457ae6d,
         type: 3}
     - target: {fileID: 7305108406421540946, guid: bb490852043681e48b24ef30e61f06c5,
         type: 3}
